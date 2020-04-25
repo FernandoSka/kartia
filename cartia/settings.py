@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +27,7 @@ SECRET_KEY = 'l)(xm)mdfxbijm-@^%gjoonz^5n*it44!6ms2689-3p1b=s2*5'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+EXPIRING_TOKEN_DURATION=timedelta(days=7)
 
 # Application definition
 
@@ -37,6 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_expiring_token',
+    'location_field.apps.DefaultConfig',
+    'API',
+    'Front',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -66,6 +73,13 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'django_expiring_token.authentication.ExpiringTokenAuthentication',
+    ]
+}
+
 
 WSGI_APPLICATION = 'cartia.wsgi.application'
 
@@ -117,4 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/statics/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'statics'),
+    )

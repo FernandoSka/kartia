@@ -1,0 +1,345 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>	
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<style type="text/css">
+		.create-button{
+
+		    position: fixed;
+		    bottom: 30px;
+		    right: 30px;
+		}
+
+		.map-style {
+			height: 300px;
+		}
+		.hov{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-5 text-center">
+			<table id="cars_table"></table>
+		</div>
+		<div class="col-md-7">
+			<div id="car-map" class="map-style" style="margin-top: 2ex;"></div>
+		</div>
+	</div>
+</div>
+<div class="create-button">
+	<span class="hov" id="create-data"><img style="height: 60px" src="{% static 'add-green.png' %}"></span>
+</div>
+
+
+<div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Car</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="update-plates" class="col-form-label">Plates:</label>
+            <input type="text" class="form-control" id="update-plates">
+          </div>
+          <div class="form-group">
+            <label for="update-location" class="col-form-label">location:</label>
+            <input type="text" class="form-control" id="update-location">
+          </div>
+          <div id="car-map-update" class="map-style"></div>
+          <input type="hidden" id="update-id">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary update-data-submit">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Create Car</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="create-plates" class="col-form-label">Plates:</label>
+            <input type="text" class="form-control" id="create-plates">
+          </div>
+          <div class="form-group">
+            <label for="create-location" class="col-form-label">location:</label>
+            <input type="text" class="form-control" id="create-location">
+          </div>
+          <div id="car-map-create" class="map-style"></div>
+          <input type="hidden" id="create-id">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary create-data-submit">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+	
+	$(document).ready( function(){
+		window.map = L.map('car-map').setView([19.580493479202527,-459.06372070312494], 13);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(map);//map
+
+		window.C_map = L.map('car-map-create').setView([19.580493479202527,-459.06372070312494], 13);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(C_map);//create_map
+
+		window.U_map = L.map('car-map-update').setView([19.580493479202527,-459.06372070312494], 13);
+		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+		}).addTo(U_map);//Update map
+		
+		window.layerGroup = L.layerGroup().addTo(map);
+		window.layerGroupC = L.layerGroup().addTo(C_map);
+		window.layerGroupU = L.layerGroup().addTo(U_map);
+		window.base_url = "{{base_url}}";
+		window.token = "{{token}}";
+		car_list()
+	});
+
+function car_list() {
+	if ($.fn.DataTable.isDataTable( '#cars_table' ) ) {
+	  	$('#cars_table').dataTable().fnDestroy()
+	}
+	$.ajax({
+	        url: base_url + "Cars",
+	        type: 'GET',
+	        headers: {
+	        	'Authorization': token,
+		        accepts: "application/json",
+		        crossDomain: true,
+	        },
+	        success: function (result) {
+	            // process result
+	            $('#cars_table').DataTable( {
+			        data: result,
+			        columns: [
+			            {
+			            	title: "Plate",
+			            	data: function(row) {
+			            		return row.plates
+			            	}
+			            },
+			            {
+			            	title: "Location",
+			            	data: function(row) {
+			            		return row.location
+			            	}
+			            },
+			            {
+			            	title: "Actions",
+			            	data: function(row) {
+			            		return row;
+			            	},
+			            	render: function(data){
+			            		return "<span class='btn btn-info btn-sm view-data' data-location='"+data.location+"' data-plates='"+data.plates+"'>View</span>"+
+			            		"<span class='btn btn-danger btn-sm delete-data' data-id='"+data.id+"'>Delete</span>"+
+			            		"<span class='btn btn-warning btn-sm update-data' data-id='"+data.id+"' data-plates='"+data.plates+"' data-location='"+data.location+"'>Update</span>";
+			            	}
+			            }
+			        ]
+			    } );
+
+	        },
+	        error: function (e) {
+	             // log error in browser
+	            console.log(e.message);
+	        }
+	    });
+}
+$(document).on('click', ".view-data", function(){
+	layerGroup.clearLayers();
+	loc = $(this).attr("data-location").split(",").map(x=>parseFloat(x))
+	plates = $(this).attr("data-plates")
+	L.marker(loc).addTo(layerGroup)
+	.bindPopup(plates)
+    .openPopup();
+	
+});
+
+$(document).on('click', ".delete-data", function(){
+	var car_id = $(this).attr("data-id");
+	swal({
+		title: "Are you sure?",
+		text: "Once deleted, you will not be able to recover this imaginary file!",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	})
+	.then((willDelete) => {
+		if (willDelete) {
+				$.ajax({
+		        url: base_url + "Cars/"+car_id,
+		        type: 'DELETE',
+		        headers: {
+		        	'Authorization': token,
+			        accepts: "application/json",
+			        crossDomain: true,
+		        },
+		        success: function (result) {
+		        	car_list();
+		        	swal("Poof! Your imaginary file has been deleted!", {
+					    icon: "success",
+					});
+		        }
+		    })
+		}
+		else {
+			swal("Your imaginary file is safe!");
+		}
+	});
+});
+
+$(document).on('click', ".update-data", function(){
+	var id = $(this).attr("data-id");
+	var location = $(this).attr("data-location");
+	var plates = $(this).attr("data-plates");
+
+	$("#update-plates").val(plates);
+	$("#update-location").val(location);
+	$("#update-id").val(id);
+	$('#UpdateModal').modal()
+
+	setTimeout(function() {
+    	U_map.invalidateSize();
+    	layerGroupU.clearLayers();
+		let marker = L.marker(location.split(",").map(x=>parseFloat(x)), {draggable:'true'}).addTo(layerGroupU)
+		//cuando se termine de hacer drag, pone la ubicacion en el campo indicado
+		marker.on("dragend", function(e) {
+		 var position = marker.getLatLng();
+		 $("#update-location").val(`${position.lat},${position.lng}`);
+		});
+  	}, 500);
+});
+
+
+$(document).on('click', ".update-data-submit", function(){
+	let plates = $("#update-plates").val();
+	let location = $("#update-location").val();
+	var car_id = $("#update-id").val();
+	var data = {
+		"plates": plates,
+		"location": location,
+	}
+	console.log("procesing");
+	$.ajax({
+        url: base_url + "Cars/"+car_id,
+        type: 'put',
+        dataType: 'json',
+        headers: {
+        	'Authorization': token,
+	        accepts: "application/json",
+	        crossDomain: true,
+
+        },
+        data: data,
+        success: function (result) {
+        	car_list();
+        	swal("Poof! Your imaginary file has been update!", {
+			    icon: "success",
+			});
+        }
+    })
+});
+
+$(document).on('click', "#create-data", function(){
+	$('#CreateModal').modal()
+	
+	setTimeout(function() {
+    	C_map.invalidateSize();
+    	layerGroupC.clearLayers();
+		let marker = L.marker([19.580493479202527,-459.06372070312494], {draggable:'true'}).addTo(layerGroupC)
+		//cuando se termine de hacer drag, pone la ubicacion en el campo indicado
+		marker.on("dragend", function(e) {
+		 var position = marker.getLatLng();
+		 $("#create-location").val(`${position.lat},${position.lng}`);
+		});
+  	}, 500);
+
+
+	
+});
+
+$(document).on('click', ".create-data-submit", function(){
+	let plates = $("#create-plates").val();
+	let location = $("#create-location").val();
+	var data = {
+		"plates": plates,
+		"location": location,
+	}
+	console.log("procesing");
+	$.ajax({
+        url: base_url + "Cars",
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/json",
+        ContentType: "application/json",
+        headers: {
+        	'Authorization': token,
+	        accepts: "application/json",
+	        crossDomain: true,
+
+        },
+        data: JSON.stringify(data),
+        success: function (result) {
+        	car_list();
+        	swal("Poof! Your imaginary file has been create!", {
+			    icon: "success",
+			});
+        }
+    })
+});
+
+$(document).on('click', ".create-submit-data", function(){
+	console.log($(this).attr("data-location"))
+	let jdict = {}
+});
+
+
+</script>
+</html>
