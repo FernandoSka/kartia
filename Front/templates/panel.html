@@ -75,7 +75,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary update-data-submit">Send message</button>
+        <button type="button" class="btn btn-warning update-data-submit">Update</button>
       </div>
     </div>
   </div>
@@ -107,7 +107,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary create-data-submit">Send message</button>
+        <button type="button" class="btn btn-success create-data-submit">Create</button>
       </div>
     </div>
   </div>
@@ -223,14 +223,11 @@ $(document).on('click', ".delete-data", function(){
 		        },
 		        success: function (result) {
 		        	car_list();
-		        	swal("Poof! Your imaginary file has been deleted!", {
+		        	swal("Your vehicle has been deleted!", {
 					    icon: "success",
 					});
 		        }
 		    })
-		}
-		else {
-			swal("Your imaginary file is safe!");
 		}
 	});
 });
@@ -280,7 +277,7 @@ $(document).on('click', ".update-data-submit", function(){
         data: data,
         success: function (result) {
         	car_list();
-        	swal("Poof! Your imaginary file has been update!", {
+        	swal("Your ivehicle has been update!", {
 			    icon: "success",
 			});
         }
@@ -328,7 +325,7 @@ $(document).on('click', ".create-data-submit", function(){
         data: JSON.stringify(data),
         success: function (result) {
         	car_list();
-        	swal("Poof! Your imaginary file has been create!", {
+        	swal("Your vehicle has been create!", {
 			    icon: "success",
 			});
         }
