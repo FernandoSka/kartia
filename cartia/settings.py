@@ -135,3 +135,4 @@ STATIC_URL = '/statics/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'statics'),
     )
+django_heroku.settings(locals())
