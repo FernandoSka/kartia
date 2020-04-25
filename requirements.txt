@@ -1,6 +1,20 @@
+apt-xapian-index==0.47
+asgiref==3.2.7
+asn1crypto==0.24.0
+beautifulsoup4==4.6.0
+certifi==2020.4.5.1
+chardet==3.0.4
+command-not-found==0.3
+conekta==2.4.0
+cryptography==2.1.4
+cupshelpers==1.0
+devscripts===2.17.12ubuntu1.1
+distro-info===0.18ubuntu0.18.04.1
+dj-database-url==0.5.0
 Django==3.0.5
 django-bootstrap-form==3.3
 django-expiring-token==1.0.2
+django-heroku==0.3.1
 django-location-field==2.1.0
 django-markdown-deux==1.0.5
 django-rest-framework==0.1.0
@@ -20,6 +34,7 @@ olefile==0.45.1
 pbr==3.1.1
 pexpect==4.2.1
 Pillow==6.2.1
+psycopg2==2.8.5
 pycairo==1.16.2
 pycrypto==2.6.1
 pycups==1.9.73
@@ -48,5 +63,5 @@ vboxapi==1.0
 virtualenv==16.7.7
 virtualenv-clone==0.2.6
 virtualenvwrapper==4.8.2
-whitenoise==3.3.1
+whitenoise==5.0.1
 xkit==0.0.0
