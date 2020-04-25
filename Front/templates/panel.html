@@ -51,66 +51,66 @@
 
 
 <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg">
-     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Car</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="update-plates" class="col-form-label">Plates:</label>
-            <input type="text" class="form-control" id="update-plates">
-          </div>
-          <div class="form-group">
-            <label for="update-location" class="col-form-label">location:</label>
-            <input type="text" class="form-control" id="update-location">
-          </div>
-          <div id="car-map-update" class="map-style"></div>
-          <input type="hidden" id="update-id">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-warning update-data-submit">Update</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Update Car</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="update-plates" class="col-form-label">Plates:</label>
+						<input type="text" class="form-control" id="update-plates">
+					</div>
+					<div class="form-group">
+						<label for="update-location" class="col-form-label">location:</label>
+						<input type="text" class="form-control" id="update-location">
+					</div>
+					<div id="car-map-update" class="map-style"></div>
+					<input type="hidden" id="update-id">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-warning update-data-submit">Update</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 <div class="modal fade" id="CreateModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg">
-     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Create Car</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="create-plates" class="col-form-label">Plates:</label>
-            <input type="text" class="form-control" id="create-plates">
-          </div>
-          <div class="form-group">
-            <label for="create-location" class="col-form-label">location:</label>
-            <input type="text" class="form-control" id="create-location">
-          </div>
-          <div id="car-map-create" class="map-style"></div>
-          <input type="hidden" id="create-id">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success create-data-submit">Create</button>
-      </div>
-    </div>
-  </div>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Create Car</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group">
+						<label for="create-plates" class="col-form-label">Plates:</label>
+						<input type="text" class="form-control" id="create-plates">
+					</div>
+					<div class="form-group">
+						<label for="create-location" class="col-form-label">location:</label>
+						<input type="text" class="form-control" id="create-location">
+					</div>
+					<div id="car-map-create" class="map-style"></div>
+					<input type="hidden" id="create-id">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-success create-data-submit">Create</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -118,7 +118,7 @@
 
 <script type="text/javascript">
 	
-	$(document).ready( function(){
+	$(document).ready( function(){//maps init
 		window.map = L.map('car-map').setView([19.580493479202527,-459.06372070312494], 13);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -137,12 +137,12 @@
 		window.layerGroup = L.layerGroup().addTo(map);
 		window.layerGroupC = L.layerGroup().addTo(C_map);
 		window.layerGroupU = L.layerGroup().addTo(U_map);
-		window.base_url = "{{base_url}}";
-		window.token = "{{token}}";
+		window.base_url = "{{base_url}}";//api base url
+		window.token = "{{token}}";//auth token
 		car_list()
 	});
 
-function car_list() {
+function car_list() {//cars datatable 
 	if ($.fn.DataTable.isDataTable( '#cars_table' ) ) {
 	  	$('#cars_table').dataTable().fnDestroy()
 	}
@@ -192,7 +192,7 @@ function car_list() {
 	        }
 	    });
 }
-$(document).on('click', ".view-data", function(){
+$(document).on('click', ".view-data", function(){//view submit
 	layerGroup.clearLayers();
 	loc = $(this).attr("data-location").split(",").map(x=>parseFloat(x))
 	plates = $(this).attr("data-plates")
@@ -202,7 +202,7 @@ $(document).on('click', ".view-data", function(){
 	
 });
 
-$(document).on('click', ".delete-data", function(){
+$(document).on('click', ".delete-data", function(){//delete submit
 	var car_id = $(this).attr("data-id");
 	swal({
 		title: "Are you sure?",
@@ -232,7 +232,7 @@ $(document).on('click', ".delete-data", function(){
 	});
 });
 
-$(document).on('click', ".update-data", function(){
+$(document).on('click', ".update-data", function(){// update modal
 	var id = $(this).attr("data-id");
 	var location = $(this).attr("data-location");
 	var plates = $(this).attr("data-plates");
@@ -255,7 +255,7 @@ $(document).on('click', ".update-data", function(){
 });
 
 
-$(document).on('click', ".update-data-submit", function(){
+$(document).on('click', ".update-data-submit", function(){//update submit
 	let plates = $("#update-plates").val();
 	let location = $("#update-location").val();
 	var car_id = $("#update-id").val();
@@ -284,7 +284,7 @@ $(document).on('click', ".update-data-submit", function(){
     })
 });
 
-$(document).on('click', "#create-data", function(){
+$(document).on('click', "#create-data", function(){//create modal
 	$('#CreateModal').modal()
 	
 	setTimeout(function() {
@@ -302,7 +302,7 @@ $(document).on('click', "#create-data", function(){
 	
 });
 
-$(document).on('click', ".create-data-submit", function(){
+$(document).on('click', ".create-data-submit", function(){//create submit
 	let plates = $("#create-plates").val();
 	let location = $("#create-location").val();
 	var data = {
