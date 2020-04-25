@@ -15,5 +15,12 @@ Se utilizaron las siguientes tecnologias:
 * Bootstrap - framework para frontend y diseño rapido
 
 
+Se habilito el panel de administracion (https://kartia.herokuapp.com/admin) para la creacion de nuevos usuarios
+y se añadieron algunos usuarios
+test1 (Admin)
+test2 (User)
+test3 (User)
+
+la contraseña para todos es a12345678.
 
 
