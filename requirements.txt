@@ -1,5 +1,5 @@
 
-Django==3.0.5
+Django==3.0.12
 django-bootstrap-form==3.3
 django-expiring-token==1.0.2
 django-heroku==0.3.1
