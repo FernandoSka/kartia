@@ -15,7 +15,7 @@ pycrypto==2.6.1
 pytz==2019.3
 pyxdg==0.25
 requests==2.23.0
-urllib3==1.25.9
+urllib3==1.26.5
 virtualenv==16.7.7
 virtualenv-clone==0.2.6
 virtualenvwrapper==4.8.2
